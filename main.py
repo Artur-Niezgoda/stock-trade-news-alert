@@ -5,13 +5,15 @@ from environs import Env
 # Read environment variables from env file
 env = Env()
 env.read_env()
-
+perc_alert = 5
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
+from_number = "+16167412561"
+to_number = "here enter the number to which you want to send SMS"
+
 
 stock_url = "https://www.alphavantage.co/query"
 news_url = "https://newsapi.org/v2/everything"
-perc_alert = 5
 stock_api = env("STOCK_API")  # Put your stock api key here
 news_api = env("NEWS_API")  # Put your news api key here
 
@@ -83,9 +85,9 @@ def send_message(news: list, perc_change: float) -> None:
 
     for item in news:
         msg = f"{COMPANY_NAME}: {change_symbol}{perc_change}% \n Heading: {item['title']} \n " f"Brief: {item['description']}"
-        message = client.messages.create(from_="+16167412561",
+        message = client.messages.create(from_=from_number,
                                          body=msg,
-                                         to='+34611527372'
+                                         to=to_number
                                          )
         print(message.status)
 
